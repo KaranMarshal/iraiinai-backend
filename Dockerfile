@@ -5,7 +5,7 @@ WORKDIR /usr/src/app
 
 # Install dependencies for building
 COPY package*.json ./
-RUN npm ci
+RUN npm install
 
 # Copy source code and build
 COPY . .
@@ -21,7 +21,7 @@ ENV NODE_ENV=production
 
 # Copy only package files and install production dependencies
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm install --omit=dev
 
 # Copy the built dist directory from the builder stage
 COPY --from=builder /usr/src/app/dist ./dist
