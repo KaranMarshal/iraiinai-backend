@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import rateLimit, { ipKeyGenerator } from 'express-rate-limit';
+import rateLimit from 'express-rate-limit';
 import { AuthController } from '../controllers/auth.controller';
 import { authenticateUser } from '../middleware/auth.middleware';
 
@@ -14,7 +14,6 @@ const emailOtpRequestLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   message: { success: false, message: 'Too many OTP requests. Try again in 15 minutes.' },
-  keyGenerator: (req) => ipKeyGenerator(req),
 });
 
 /** 10 verify attempts per IP per 15 minutes */
@@ -24,7 +23,6 @@ const emailOtpVerifyLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   message: { success: false, message: 'Too many verification attempts. Try again in 15 minutes.' },
-  keyGenerator: (req) => ipKeyGenerator(req),
 });
 
 // ─── Phone OTP ────────────────────────────────────────────────────────────────
